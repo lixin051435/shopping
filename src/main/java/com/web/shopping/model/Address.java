@@ -6,10 +6,15 @@ import java.util.Objects;
 @Entity
 @Table(name = "tb_address", schema = "db_shopping", catalog = "")
 public class Address {
+    // 地址id
     private String addressId;
+    // 收货地址
     private String deliveryAddress;
+    // 收件人电话
     private String receiverPhone;
+    // 收件人
     private String reveiverName;
+    // 地址所属客户id
     private String customerId;
 
     @Id

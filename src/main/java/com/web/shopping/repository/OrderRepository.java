@@ -12,4 +12,8 @@ public interface OrderRepository extends JpaRepository<Order,String> {
     Page<Order> findAllByOrderNoLike(String orderNo,Pageable pageable);
 
     List<Order> findAllByCustomerId(String customerId);
+
+    Page<Order> findAllByOrderNoIn(List<String> orderNos);
+
+    Order findByOrderNo(String orderNo);
 }

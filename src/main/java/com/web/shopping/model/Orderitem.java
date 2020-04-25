@@ -1,6 +1,7 @@
 package com.web.shopping.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.web.shopping.enums.OrderItemStatusEnum;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -10,18 +11,41 @@ import java.util.Objects;
 @Entity
 @Table(name = "tb_orderitem", schema = "db_shopping", catalog = "")
 public class Orderitem {
+    // 订单项主键
     private String id;
+    // 下单客户id
     private String customerId;
+    // 订单编号
     private String orderNo;
+    // 商品所属商家id
     private String businessId;
+    // 商品id
     private String productId;
+    // 商品名称
     private String productName;
+    // 商品图片
     private String productImage;
+    // 下单时单价
     private BigDecimal currentUnitPrice;
+    // 下单数量
     private Integer quantity;
+    // 总价
     private BigDecimal totalPrice;
+    // 创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
+    // 订单项状态
+    private Integer status = OrderItemStatusEnum.COMMITED.getCode();
+
+    @Basic
+    @Column(name = "status")
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     @Basic
     @Column(name = "business_id")
