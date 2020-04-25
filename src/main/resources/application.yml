@@ -1,0 +1,23 @@
+server:
+  port: 9000
+  servlet:
+    context-path: /shopping
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_shopping?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+  aop:
+    auto: true
+  jpa:
+    show-sql: false
+
+
+
+
+
+
+
+
