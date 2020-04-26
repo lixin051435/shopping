@@ -38,7 +38,7 @@ public class BusinessOrder {
     }
 
     @Basic
-    @Column(name = "business_no")
+    @Column(name = "business_id")
     public String getBusinessId() {
         return businessId;
     }

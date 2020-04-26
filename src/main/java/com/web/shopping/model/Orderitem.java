@@ -15,6 +15,11 @@ public class Orderitem {
     private String id;
     // 下单客户id
     private String customerId;
+
+    // 快递id
+    private Integer shippingId;
+    // 邮费
+    private Double postage;
     // 订单编号
     private String orderNo;
     // 商品所属商家id
@@ -36,6 +41,28 @@ public class Orderitem {
     private Date createTime;
     // 订单项状态
     private Integer status = OrderItemStatusEnum.COMMITED.getCode();
+
+
+    @Basic
+    @Column(name = "shipping_id")
+    public Integer getShippingId() {
+        return shippingId;
+    }
+
+    public void setShippingId(Integer shippingId) {
+        this.shippingId = shippingId;
+    }
+
+
+    @Basic
+    @Column(name = "postage")
+    public Double getPostage() {
+        return postage;
+    }
+
+    public void setPostage(Double postage) {
+        this.postage = postage;
+    }
 
     @Basic
     @Column(name = "status")

@@ -28,10 +28,12 @@ public class LoginController {
                                 @RequestParam(defaultValue="") String password,
                                 @RequestParam(defaultValue = "") Integer type){
         if(type == 1){
+            // 管理员
             Admin admin = adminRepository.findByNicknameAndPassword(nickname,password);
             return ResponseEntity.ok(admin);
         }else if(type == 0){
-            return ResponseEntity.ok(customerRepository.findByNicknameAndPassword(nickname,password));
+            // 商家
+            return ResponseEntity.ok(businessRepository.findByNicknameAndPassword(nickname,password));
         }else{
             return ResponseEntity.ok(null);
         }

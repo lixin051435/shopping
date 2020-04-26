@@ -13,7 +13,7 @@ public interface OrderRepository extends JpaRepository<Order,String> {
 
     List<Order> findAllByCustomerId(String customerId);
 
-    Page<Order> findAllByOrderNoIn(List<String> orderNos);
+    Page<Order> findAllByOrderNoIn(List<String> orderNos,Pageable pageable);
 
     Order findByOrderNo(String orderNo);
 }
