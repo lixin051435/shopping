@@ -28,6 +28,14 @@ public class ProductController {
     @Autowired
     private BusinessRepository businessRepository;
 
+    /**
+     * 管理员查看所有商品分页
+     * @param page
+     * @param size
+     * @param name
+     * @param categoryName
+     * @return
+     */
     @GetMapping("/list")
     public ResponseEntity list(@RequestParam(defaultValue="1",required = false) Integer page,
                                @RequestParam(defaultValue="10",required = false)Integer size,
@@ -39,11 +47,38 @@ public class ProductController {
         return ResponseEntity.ok(productRepository.findAllByCategoryNameLikeAndNameLike(categoryName,name,pagebean));
     }
 
+    /**
+     * 商家查看自家店铺的商品分页
+     * @param page
+     * @param size
+     * @param name
+     * @param busniessId
+     * @return
+     */
+    @GetMapping("/findByBusiness")
+    public ResponseEntity findByBusiness(@RequestParam(defaultValue="1",required = false) Integer page,
+                               @RequestParam(defaultValue="10",required = false)Integer size,
+                               @RequestParam(defaultValue = "",required = false) String name,
+                               @RequestParam(defaultValue = "",required = false) String busniessId){
+        Pageable pagebean =  PageRequest.of(page-1,size);
+        name = "%" + name + "%";
+        return ResponseEntity.ok(productRepository.findAllByBusinessIdAndNameLike(busniessId,name,pagebean));
+    }
+
+    /**
+     * 获取所有商品
+     * @return
+     */
     @GetMapping("/findAll")
     public ResponseEntity findAll(){
         return ResponseEntity.ok(productRepository.findAll());
     }
 
+    /**
+     * 添加和修改商品
+     * @param form
+     * @return
+     */
     @RequestMapping(path = "/save", method = {RequestMethod.PUT, RequestMethod.POST})
     public ResponseEntity save(@RequestBody Product form) {
         if(form.getId() == null || form.getId().trim().length() == 0){
@@ -65,6 +100,11 @@ public class ProductController {
         return ResponseEntity.ok(productRepository.save(form));
     }
 
+    /**
+     * 删除商品
+     * @param id
+     * @return
+     */
     @DeleteMapping("/remove/{id}")
     public ResponseEntity list(@PathVariable("id") String id ) {
         Product data = productRepository.findById(id).get();
@@ -72,11 +112,24 @@ public class ProductController {
         return ResponseEntity.ok(data);
     }
 
+    /**
+     * 根据商品类别查询商品
+     * @param id
+     * @return
+     */
     @GetMapping("/findByCategory/{id}")
     public ResponseEntity findByCategory(@PathVariable("id") Integer id ) {
         return ResponseEntity.ok(productRepository.findAllByCategoryId(id));
     }
 
+    /**
+     * 根据商品类别查询商品分页
+     * @param page
+     * @param size
+     * @param name
+     * @param categoryId
+     * @return
+     */
     @GetMapping("/findPageByCategory")
     public ResponseEntity findPageByCategory(@RequestParam(defaultValue="1",required = false) Integer page,
                                              @RequestParam(defaultValue="10",required = false)Integer size,
@@ -94,6 +147,11 @@ public class ProductController {
 
     }
 
+    /**
+     * 根据商品id查询商品
+     * @param id
+     * @return
+     */
     @GetMapping("/findById/{id}")
     public ResponseEntity findById(@PathVariable("id") String id ) {
         return ResponseEntity.ok(productRepository.findById(id).get());

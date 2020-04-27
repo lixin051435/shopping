@@ -45,6 +45,13 @@ public class OrderController {
     private BusinessOrderRepository businessOrderRepository;
 
 
+    /**
+     * 给整个订单发货
+     * @param shippingId
+     * @param postage
+     * @param orderId
+     * @return
+     */
     @GetMapping("/shipOrder")
     public ResponseEntity list(@RequestParam(defaultValue = "", required = false) Integer shippingId,
                                @RequestParam(defaultValue = "", required = false) Integer postage,
@@ -59,6 +66,15 @@ public class OrderController {
 
 
     // 根据商家根据订单发货
+
+    /**
+     * 商家给订单（只涉及到自己店铺的商品）发货
+     * @param orderNo
+     * @param busniessId
+     * @param shippingId
+     * @param postage
+     * @return
+     */
     @GetMapping("/sendout")
     public ResponseEntity sendout(String orderNo, String busniessId,Integer shippingId,Double postage) {
         // 查询这个订单下 这个商家的订单项
@@ -93,7 +109,12 @@ public class OrderController {
         return ResponseEntity.ok(true);
     }
 
-    // 根据订单编号和商家名称 查询该订单下这个商家的订单项
+    /**
+     * 根据订单编号和商家名称 查询该订单下这个商家的订单项
+     * @param orderNo
+     * @param busniessId
+     * @return
+     */
     @GetMapping("/getOrderItemByBusiness")
     public ResponseEntity getOrderItemByBusiness(String orderNo, String busniessId) {
         List<Orderitem> orderitems = orderItemRepository.findAllByOrderNo(orderNo);
@@ -107,7 +128,13 @@ public class OrderController {
         return ResponseEntity.ok(orderitems);
     }
 
-    // 根据商家id获取分页订单
+    /**
+     * 根据商家id获取分页订单
+     * @param page
+     * @param size
+     * @param busniessId
+     * @return
+     */
     @GetMapping("/getOrdersByBusinessId")
     public ResponseEntity getOrdersByBusinessId(@RequestParam(defaultValue = "1", required = false) Integer page,
                                                 @RequestParam(defaultValue = "10", required = false) Integer size,
