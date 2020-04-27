@@ -6,7 +6,9 @@ import com.web.shopping.enums.OrderStatusEnum;
 import com.web.shopping.model.*;
 import com.web.shopping.repository.*;
 import com.web.shopping.util.KeyUtil;
+import com.web.shopping.vo.CustomerOrderVO;
 import com.web.shopping.vo.OrderVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -149,10 +151,38 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
+    /**
+     * 客户查询自己的订单
+     * @param customerId
+     * @return
+     */
     @GetMapping("/getMyOrders")
     public ResponseEntity getMyOrders(String customerId) {
 
         return ResponseEntity.ok(orderRepository.findAllByCustomerId(customerId));
+    }
+
+    /**
+     * 客户查询自己的订单
+     * @param customerId
+     * @return
+     */
+    @GetMapping("/getMyOrders2")
+    public ResponseEntity getMyOrders2(String customerId) {
+        List<CustomerOrderVO> customerOrderVOS = new ArrayList<>();
+
+        // 从数据库查询的所有订单
+        List<Order> orders = orderRepository.findAllByCustomerId(customerId);
+        for (Order temp :
+                orders) {
+            CustomerOrderVO customerOrderVO = new CustomerOrderVO();
+            BeanUtils.copyProperties(temp,customerOrderVO);
+
+            List<Orderitem> orderitems = orderItemRepository.findAllByOrderNo(temp.getOrderNo());
+            customerOrderVO.setOrderitemList(orderitems);
+            customerOrderVOS.add(customerOrderVO);
+        }
+        return ResponseEntity.ok(customerOrderVOS);
     }
 
     @GetMapping("/list")

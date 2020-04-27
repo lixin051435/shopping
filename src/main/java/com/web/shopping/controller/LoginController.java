@@ -35,7 +35,8 @@ public class LoginController {
             // 商家
             return ResponseEntity.ok(businessRepository.findByNicknameAndPassword(nickname,password));
         }else{
-            return ResponseEntity.ok(null);
+            // 客户
+            return ResponseEntity.ok(customerRepository.findByNicknameAndPassword(nickname,password));
         }
 
     }
